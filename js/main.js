@@ -96,7 +96,19 @@ var viewPhoto = function (picture) {
 var arrayOfPictures = getArrayOfPictures(PHOTO_COUNT);
 var bigPicture = document.querySelector('.big-picture');
 
-renderAllPictures(arrayOfPictures);
-viewPhoto(arrayOfPictures[0]);
+// renderAllPictures(arrayOfPictures);
+// viewPhoto(arrayOfPictures[0]);
 
-bigPicture.classList.remove('hidden');
+// bigPicture.classList.remove('hidden');
+
+var upload = document.querySelector('.img-upload__overlay');
+var uploadOpen = document.querySelector('#upload-file');
+var uploadClose = document.querySelector('#upload-cancel');
+
+uploadOpen.addEventListener('change', function () {
+  upload.classList.remove('hidden');
+});
+
+uploadClose.addEventListener('click', function () {
+  upload.classList.add('hidden');
+});
