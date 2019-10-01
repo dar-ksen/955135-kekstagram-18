@@ -7,7 +7,7 @@
   var descriptionInput = document.querySelector('.text__description');
 
   var isEscEvent = function (evt, action) {
-    if (evt.keyCode === ESC_KEYCODE && !hashtagInput.matches(':focus') && !descriptionInput.matches(':focus')) {
+    if (evt.keyCode === ESC_KEYCODE && document.activeElement !== hashtagInput && document.activeElement !== descriptionInput) {
       action();
     }
   };

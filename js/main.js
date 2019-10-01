@@ -171,7 +171,7 @@ var closePopup = function () {
   scaleInc.removeEventListener('click', onScaleIncClick);
   imageEffects.removeEventListener('change', changeEffects);
   document.removeEventListener('keydown', onPopupEscPress);
-  uploadOpen.value = null;
+  form.reset();
 };
 
 // валидация
@@ -235,6 +235,7 @@ var pinSlider = document.querySelector('.effect-level__pin');
 
 var uploadImage = upload.querySelector('.img-upload__preview img');
 var imageEffects = upload.querySelector('.effects');
+var form = document.querySelector('.img-upload__form');
 
 // контроль размеров
 var scaleControl = upload.querySelector('.scale__control--value');
