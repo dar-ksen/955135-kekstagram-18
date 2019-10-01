@@ -157,7 +157,7 @@ var openPopup = function () {
   changeScale();
   scaleDec.addEventListener('click', onScaleDecClick);
   scaleInc.addEventListener('click', onScaleIncClick);
-  pinSlider.addEventListener('mouseup', changeEffects);
+  imageEffects.addEventListener('change', changeEffects);
   document.addEventListener('keydown', onPopupEscPress);
 };
 
@@ -169,6 +169,7 @@ var closePopup = function () {
   upload.classList.add('hidden');
   scaleDec.removeEventListener('click', onScaleDecClick);
   scaleInc.removeEventListener('click', onScaleIncClick);
+  imageEffects.removeEventListener('change', changeEffects);
   document.removeEventListener('keydown', onPopupEscPress);
   uploadOpen.value = null;
 };
