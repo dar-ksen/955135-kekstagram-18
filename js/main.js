@@ -90,31 +90,28 @@ bigPicture.classList.remove('hidden');
 */
 
 var changeEffects = function () {
-  var effects = imageEffects.elements;
+  var checkedEffect = imageEffects.querySelector('input:checked');
+  var sliderOfset = pinSlider.offsetLeft / pinSlider.parentNode.offsetWidth;
 
-  for (var i = 0; i < effects.length; i++) {
-    if (effects[i].checked) {
-      switch (effects[i].value) {
-        case 'chrome':
-          uploadImage.style.filter = 'grayscale(' + pinSlider.offsetLeft / pinSlider.parentNode.offsetWidth + ')';
-          break;
-        case 'sepia':
-          uploadImage.style.filter = 'sepia(' + pinSlider.offsetLeft / pinSlider.parentNode.offsetWidth + ')';
-          break;
-        case 'marvin':
-          uploadImage.style.filter = 'invert(' + pinSlider.offsetLeft / pinSlider.parentNode.offsetWidth * 100 + '%)';
-          break;
-        case 'phobos':
-          uploadImage.style.filter = 'blur(' + pinSlider.offsetLeft / pinSlider.parentNode.offsetWidth * 3 + 'px)';
-          break;
-        case 'heat':
-          uploadImage.style.filter = 'brightness(' + pinSlider.offsetLeft / pinSlider.parentNode.offsetWidth * 3 + ')';
-          break;
-        default:
-          uploadImage.style.removeProperty('filter');
-          break;
-      }
-    }
+  switch (checkedEffect.value) {
+    case 'chrome':
+      uploadImage.style.filter = 'grayscale(' + sliderOfset + ')';
+      break;
+    case 'sepia':
+      uploadImage.style.filter = 'sepia(' + sliderOfset + ')';
+      break;
+    case 'marvin':
+      uploadImage.style.filter = 'invert(' + sliderOfset * 100 + '%)';
+      break;
+    case 'phobos':
+      uploadImage.style.filter = 'blur(' + sliderOfset * 3 + 'px)';
+      break;
+    case 'heat':
+      uploadImage.style.filter = 'brightness(' + sliderOfset * 3 + ')';
+      break;
+    default:
+      uploadImage.style.removeProperty('filter');
+      break;
   }
 };
 
@@ -183,43 +180,43 @@ hashtagInput.addEventListener('input', function () {
 });
 
 var validateHashtags = function (userInput) {
-  if (userInput === '') {
-    return '';
+  var message = '';
+  if (userInput !== '') {
+    var arrayHashtags = userInput.toLowerCase().split(' ');
+
+    if (arrayHashtags.length > 5) {
+      message = 'Вы не можете использовать больше 5 хэштегов';
+    } else {
+      for (var i = 0; i < arrayHashtags.length; i++) {
+        var hashtag = arrayHashtags[i];
+
+        if (hashtag[0] !== '#') {
+          message = 'Вы забыли поставить знак #';
+        }
+
+        if (hashtag === '#') {
+          message = 'Вы не ввели текст хэштэга';
+        }
+
+        var cutHashtag = hashtag.slice(1);
+
+        if (cutHashtag.indexOf('#') !== -1) {
+          message = 'Вы забыли поставить пробел между хэштегами';
+        }
+
+        if (arrayHashtags.indexOf(hashtag) !== i) {
+          message = 'Вы уже использовали данный хэштег';
+        }
+
+        if (hashtag.length > 20) {
+          message = 'Длина хэштега должна быть не больше 20 символов, включая решётку';
+        }
+      }
+    }
+
   }
 
-  var arrayHashtags = userInput.toLowerCase().split(' ');
-
-  if (arrayHashtags.length > 5) {
-    return 'Вы не можете использовать больше 5 хэштегов';
-  }
-
-  for (var i = 0; i < arrayHashtags.length; i++) {
-    var hashtag = arrayHashtags[i];
-
-    if (hashtag[0] !== '#') {
-      return 'Вы забыли поставить знак #';
-    }
-
-    if (hashtag === '#') {
-      return ' Вы не ввели текст хэштэга';
-    }
-
-    var cutHashtag = hashtag.slice(1);
-
-    if (cutHashtag.indexOf('#') !== -1) {
-      return 'Вы забыли поставить пробел между хэштегами';
-    }
-
-    if (arrayHashtags.indexOf(hashtag) !== i) {
-      return 'Вы уже использовали данный хэштег';
-    }
-
-    if (hashtag.length > 20) {
-      return 'Длина хэштега должна быть не больше 20 символов, включая решётку';
-    }
-  }
-
-  return '';
+  return message;
 };
 
 
