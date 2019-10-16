@@ -3,13 +3,37 @@
 (function () {
   var upload = window.util.upload;
 
-  var pinSlider = document.querySelector('.effect-level__pin');
-  var uploadImage = upload.querySelector('.img-upload__preview img');
-  var imageEffects = upload.querySelector('.effects');
-
   var hashtagInput = document.querySelector('.text__hashtags');
+  var descriptionInput = document.querySelector('.text__description');
+  var uploadOpen = document.querySelector('#upload-file');
+  var uploadClose = upload.querySelector('#upload-cancel');
+  var form = document.querySelector('.img-upload__form');
 
-  // валидация
+  var openPopup = function () {
+    upload.classList.remove('hidden');
+    window.scale.activeScale();
+    document.addEventListener('keydown', onPopupEscPress);
+  };
+
+  var onPopupEscPress = function (evt) {
+    var isNotAllowed = [hashtagInput, descriptionInput].includes(document.activeElement);
+    window.util.isEscEvent(evt, closePopup, isNotAllowed);
+  };
+
+  var closePopup = function () {
+    upload.classList.add('hidden');
+    document.removeEventListener('keydown', onPopupEscPress);
+    form.reset();
+  };
+
+  uploadOpen.addEventListener('change', function () {
+    openPopup();
+  });
+
+  uploadClose.addEventListener('click', function () {
+    closePopup();
+  });
+
   hashtagInput.addEventListener('input', function () {
     var hashtagError = validateHashtags(hashtagInput.value);
     hashtagInput.setCustomValidity(hashtagError);
@@ -55,33 +79,4 @@
     return message;
   };
 
-  // выбор эффекта
-
-  var changeEffects = function () {
-    var checkedEffect = imageEffects.querySelector('input:checked');
-    var sliderOfset = pinSlider.offsetLeft / pinSlider.parentNode.offsetWidth;
-
-    switch (checkedEffect.value) {
-      case 'chrome':
-        uploadImage.style.filter = 'grayscale(' + sliderOfset + ')';
-        break;
-      case 'sepia':
-        uploadImage.style.filter = 'sepia(' + sliderOfset + ')';
-        break;
-      case 'marvin':
-        uploadImage.style.filter = 'invert(' + sliderOfset * 100 + '%)';
-        break;
-      case 'phobos':
-        uploadImage.style.filter = 'blur(' + sliderOfset * 3 + 'px)';
-        break;
-      case 'heat':
-        uploadImage.style.filter = 'brightness(' + sliderOfset * 3 + ')';
-        break;
-      default:
-        uploadImage.style.removeProperty('filter');
-        break;
-    }
-  };
-
-  imageEffects.addEventListener('change', changeEffects);
 })();

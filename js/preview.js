@@ -34,15 +34,15 @@
     bigPicture.querySelector('.social__caption').textContent = picture.description;
     getComments(picture.comments);
     // Временно
-    bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
-    bigPicture.querySelector('.comments-loader').classList.add('visually-hidden');
+    // bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
+    // bigPicture.querySelector('.comments-loader').classList.add('visually-hidden');
     bigPicture.classList.remove('hidden');
     document.addEventListener('keydown', onEscPress);
   };
 
   closeButton.addEventListener('click', closeBigPicture);
 
-  window.previews = {
+  window.preview = {
     viewPhoto: viewPhoto,
   };
 })();

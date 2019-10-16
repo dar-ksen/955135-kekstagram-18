@@ -17,8 +17,7 @@
 
   var filterRandom = function (array) {
     window.util.deletePictures();
-    var image = array.slice().sort(compareRandom);
-    window.picture.renderAll(image.slice(0, 10));
+    window.picture.renderAll(array.slice().sort(compareRandom).slice(0, 10));
   };
 
   var filterPopular = function (array) {
@@ -38,6 +37,6 @@
   });
 
   window.imgFilter = {
-    chooseFilter: chooseFilter,
+    choose: chooseFilter,
   };
 })();
