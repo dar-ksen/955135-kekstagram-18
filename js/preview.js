@@ -2,6 +2,16 @@
 
 (function () {
   var bigPicture = document.querySelector('.big-picture');
+  var closeButton = bigPicture.querySelector('#picture-cancel');
+
+  var closeBigPicture = function () {
+    bigPicture.classList.add('hidden');
+    document.removeEventListener('keydown', onEscPress);
+  };
+
+  var onEscPress = function (evt) {
+    window.util.isEscEvent(evt, closeBigPicture);
+  };
 
   var viewPhoto = function (picture) {
     var getComments = function (comments) {
@@ -26,11 +36,13 @@
     // Временно
     bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
     bigPicture.querySelector('.comments-loader').classList.add('visually-hidden');
+    bigPicture.classList.remove('hidden');
+    document.addEventListener('keydown', onEscPress);
   };
 
-  bigPicture.classList.remove('hidden');
+  closeButton.addEventListener('click', closeBigPicture);
 
-  window.gallery = {
+  window.previews = {
     viewPhoto: viewPhoto,
   };
 })();
