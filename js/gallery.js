@@ -72,12 +72,12 @@
 
   filter.addEventListener('click', function (evt) {
     var target = evt.target;
-    if (target.classList.contains('img-filters__button') && !target.classList.contains('img-filters__button--active')) {
-      window.imgFilter.filters[target.id](arrayOfPictures);
+    if (target.classList.contains('img-filters__button')) {
       filterButtons.forEach(function (button) {
         button.classList.remove('img-filters__button--active');
       });
       target.classList.add('img-filters__button--active');
+      window.imgFilter.chooseFilter(target.id, arrayOfPictures);
     }
   });
 

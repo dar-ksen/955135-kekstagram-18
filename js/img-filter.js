@@ -1,6 +1,10 @@
 'use strict';
 
 (function () {
+  var compareRandom = function () {
+    return Math.random() - 0.5;
+  };
+
 
   var filterDiscussed = function (array) {
     window.util.deletePictures();
@@ -11,24 +15,29 @@
     }));
   };
 
+  var filterRandom = function (array) {
+    window.util.deletePictures();
+    var image = array.slice().sort(compareRandom);
+    window.picture.renderAll(image.slice(0, 10));
+  };
+
   var filterPopular = function (array) {
     window.util.deletePictures();
-
     window.picture.renderAll(array);
   };
 
-  var filteRandom = function (array) {
-    window.util.deletePictures();
-    window.picture.renderAll(array.slice(0, 10));
-  };
 
   var filters = {
     'filter-popular': filterPopular,
-    'filter-random': filteRandom,
+    'filter-random': filterRandom,
     'filter-discussed': filterDiscussed,
   };
 
+  var chooseFilter = window.debounce(function (key, array) {
+    filters[key](array);
+  });
+
   window.imgFilter = {
-    filters: filters,
+    chooseFilter: chooseFilter,
   };
 })();
