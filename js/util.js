@@ -3,11 +3,14 @@
 (function () {
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
-  var hashtagInput = document.querySelector('.text__hashtags');
-  var descriptionInput = document.querySelector('.text__description');
+  var pictures = document.querySelector('.pictures');
+  // поправить
 
-  var isEscEvent = function (evt, action) {
-    if (evt.keyCode === ESC_KEYCODE && document.activeElement !== hashtagInput && document.activeElement !== descriptionInput) {
+
+  var upload = document.querySelector('.img-upload__overlay');
+
+  var isEscEvent = function (evt, action, isNotAllowed) {
+    if (evt.keyCode === ESC_KEYCODE && !isNotAllowed) {
       action();
     }
   };
@@ -27,10 +30,25 @@
     return array[Math.floor(Math.random() * array.length)];
   };
 
+  var cleanContainer = function (container) {
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+  };
+
+  var deletePictures = function () {
+    [].forEach.call(pictures.querySelectorAll('.picture'), function (picture) {
+      picture.parentNode.removeChild(picture);
+    });
+  };
+
   window.util = {
     isEscEvent: isEscEvent,
     isEnterEvent: isEnterEvent,
     getRandomNumber: getRandomNumber,
     getRandomArrayIndex: getRandomArrayIndex,
+    cleanContainer: cleanContainer,
+    deletePictures: deletePictures,
+    upload: upload,
   };
 })();
