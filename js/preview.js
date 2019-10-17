@@ -1,11 +1,19 @@
 'use strict';
 
 (function () {
+  var DISPLAY_COMMENTS = 5;
+
+  var body = document.querySelector('body');
   var bigPicture = document.querySelector('.big-picture');
+  var commentTemplate = bigPicture.querySelector('.social__comment');
   var closeButton = bigPicture.querySelector('#picture-cancel');
+  var commentCount = bigPicture.querySelector('.social__comment-count');
+  var commentsLoader = bigPicture.querySelector('.comments-loader');
+  var countOfComments;
 
   var closeBigPicture = function () {
     bigPicture.classList.add('hidden');
+    body.classList.remove('modal-open');
     document.removeEventListener('keydown', onEscPress);
   };
 
@@ -13,32 +21,67 @@
     window.util.isEscEvent(evt, closeBigPicture);
   };
 
-  var viewPhoto = function (picture) {
-    var getComments = function (comments) {
-      var commentsContainer = bigPicture.querySelector('.social__comments');
-      var commentTemplate = bigPicture.querySelector('.social__comment');
-      window.util.cleanContainer(commentsContainer);
-      for (var i = 0; i < comments.length; i++) {
-        var comment = commentTemplate.cloneNode(true);
-        comment.querySelector('.social__picture').src = comments[i].avatar;
-        comment.querySelector('.social__picture').alt = comments[i].name;
-        comment.querySelector('.social__text').textContent = comments[i].message;
-        commentsContainer.appendChild(comment);
-      }
-    };
+  function showcommentCount() {
+    var displayedComments = bigPicture.querySelectorAll('.social__comment:not(.visually-hidden)').length;
+    var commentCountElement = displayedComments + ' из ' + '<span class="comments-count">' + countOfComments + '</span>' + ' комментариев';
+    commentCount.innerHTML = commentCountElement;
+  }
 
+  function loadComments() {
+    var commentElements = bigPicture.querySelectorAll('.social__comment.visually-hidden');
+    var countHiddenElment = commentElements.length > DISPLAY_COMMENTS ? DISPLAY_COMMENTS : commentElements.length;
+    for (var i = 0; i < countHiddenElment; i++) {
+      commentElements[i].classList.remove('visually-hidden');
+    }
+    if (bigPicture.querySelectorAll('.social__comment.visually-hidden').length === 0) {
+      commentsLoader.classList.add('visually-hidden');
+    }
+  }
+
+  function createComment(comment) {
+    var commentElement = commentTemplate.cloneNode(true);
+    commentElement.querySelector('.social__picture').src = comment.avatar;
+    commentElement.querySelector('.social__picture').title = comment.name;
+    commentElement.querySelector('.social__text').textContent = comment.message;
+    return commentElement;
+  }
+
+  var getComments = function (comments) {
+    var commentsList = bigPicture.querySelector('.social__comments');
+    window.util.cleanContainer(commentsList);
+    var fragment = document.createDocumentFragment();
+    comments.forEach(function (currentItem, index) {
+      var comment = createComment(currentItem);
+      if (index >= DISPLAY_COMMENTS) {
+        comment.classList.add('visually-hidden');
+      }
+      fragment.appendChild(comment);
+    });
+    commentsList.appendChild(fragment);
+  };
+
+  var viewPhoto = function (picture) {
     bigPicture.querySelector('.big-picture__img img').src = picture.url;
     bigPicture.querySelector('.big-picture__img img').alt = picture.description;
     bigPicture.querySelector('.likes-count').textContent = picture.likes;
-    bigPicture.querySelector('.comments-count').textContent = picture.comments.length;
-    bigPicture.querySelector('.social__caption').textContent = picture.description;
     getComments(picture.comments);
-    // Временно
-    // bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
-    // bigPicture.querySelector('.comments-loader').classList.add('visually-hidden');
+    bigPicture.querySelector('.social__caption').textContent = picture.description;
     bigPicture.classList.remove('hidden');
+    body.classList.add('modal-open');
     document.addEventListener('keydown', onEscPress);
+    countOfComments = picture.comments.length;
+    showcommentCount();
+    if (countOfComments > DISPLAY_COMMENTS) {
+      commentsLoader.classList.remove('visually-hidden');
+    } else {
+      commentsLoader.classList.add('visually-hidden');
+    }
   };
+
+  commentsLoader.addEventListener('click', function () {
+    loadComments();
+    showcommentCount();
+  });
 
   closeButton.addEventListener('click', closeBigPicture);
 

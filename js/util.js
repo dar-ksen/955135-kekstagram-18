@@ -4,8 +4,6 @@
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
   var pictures = document.querySelector('.pictures');
-  // поправить
-
 
   var upload = document.querySelector('.img-upload__overlay');
 
