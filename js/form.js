@@ -38,6 +38,8 @@
   hashtagInput.addEventListener('input', function () {
     var hashtagError = validateHashtags(hashtagInput.value);
     hashtagInput.setCustomValidity(hashtagError);
+    hashtagInput.reportValidity();
+    hashtagInput.style.outline = !hashtagInput.validity.valid ? '2px solid red' : 'none';
   });
 
   var validateHashtags = function (userInput) {
@@ -48,31 +50,24 @@
       if (arrayHashtags.length > 5) {
         message = 'Вы не можете использовать больше 5 хэштегов';
       } else {
-        for (var i = 0; i < arrayHashtags.length; i++) {
-          var hashtag = arrayHashtags[i];
-
+        arrayHashtags.forEach(function (hashtag, index) {
           if (hashtag[0] !== '#') {
             message = 'Вы забыли поставить знак #';
           }
-
           if (hashtag === '#') {
             message = 'Вы не ввели текст хэштэга';
           }
-
           var cutHashtag = hashtag.slice(1);
-
           if (cutHashtag.indexOf('#') !== -1) {
             message = 'Вы забыли поставить пробел между хэштегами';
           }
-
-          if (arrayHashtags.indexOf(hashtag) !== i) {
+          if (arrayHashtags.indexOf(hashtag) !== index) {
             message = 'Вы уже использовали данный хэштег';
           }
-
           if (hashtag.length > 20) {
             message = 'Длина хэштега должна быть не больше 20 символов, включая решётку';
           }
-        }
+        });
       }
 
     }
