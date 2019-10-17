@@ -1,7 +1,9 @@
 'use strict';
 
 (function () {
+  var URL_SAVE = 'https://js.dump.academy/kekstagram';
   var upload = window.util.upload;
+  var body = window.util.body;
 
   var hashtagInput = document.querySelector('.text__hashtags');
   var descriptionInput = document.querySelector('.text__description');
@@ -19,10 +21,12 @@
   var onPopupEscPress = function (evt) {
     var isNotAllowed = [hashtagInput, descriptionInput].includes(document.activeElement);
     window.util.isEscEvent(evt, closePopup, isNotAllowed);
+    body.classList.add('modal-open');
   };
 
   var closePopup = function () {
     upload.classList.add('hidden');
+    body.classList.remove('modal-open');
     document.removeEventListener('keydown', onPopupEscPress);
     form.reset();
   };
@@ -69,10 +73,22 @@
           }
         });
       }
-
     }
-
     return message;
   };
+
+  var onSend = function () {
+    closePopup();
+    window.message.show();
+  };
+  var onError = function (errorMessage) {
+    closePopup();
+    window.message.show(errorMessage);
+  };
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.ajax(onSend, onError, 'POST', URL_SAVE, new FormData(form));
+  });
 
 })();

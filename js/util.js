@@ -3,6 +3,7 @@
 (function () {
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
+  var body = document.querySelector('body');
   var pictures = document.querySelector('.pictures');
 
   var upload = document.querySelector('.img-upload__overlay');
@@ -48,5 +49,6 @@
     cleanContainer: cleanContainer,
     deletePictures: deletePictures,
     upload: upload,
+    body: body,
   };
 })();

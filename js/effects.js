@@ -47,15 +47,15 @@
     return effects;
   };
 
-  sliderPin.addEventListener('mousedown', function (e) {
-    e.preventDefault();
-    var startCoords = e.clientX;
+  sliderPin.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+    var startCoords = evt.clientX;
 
-    var onMouseMove = function (moveE) {
-      moveE.preventDefault();
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
 
-      var shift = startCoords - moveE.clientX;
-      startCoords = moveE.clientX;
+      var shift = startCoords - moveEvt.clientX;
+      startCoords = moveEvt.clientX;
 
       if (sliderPin.offsetLeft - shift >= 0 && sliderPin.offsetLeft - shift <= sliderLine.offsetWidth) {
         sliderPin.style.left = (sliderPin.offsetLeft - shift) + 'px';
@@ -66,8 +66,8 @@
 
     };
 
-    var onMouseUp = function (upE) {
-      upE.preventDefault();
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
