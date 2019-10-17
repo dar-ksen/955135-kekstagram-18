@@ -45,6 +45,6 @@
   scaleInc.addEventListener('click', onScaleIncClick);
 
   window.scale = {
-    activeScale: activeScale,
+    active: activeScale,
   };
 })();

@@ -14,7 +14,7 @@
   var openPopup = function () {
     upload.classList.remove('hidden');
     window.effects.switch();
-    window.scale.activeScale();
+    window.scale.active();
     document.addEventListener('keydown', onPopupEscPress);
   };
 
