@@ -14,11 +14,11 @@
     return pictureElement;
   };
 
-  var renderAllPictures = function (data) {
+  var renderAllPictures = function (elements) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < data.length; i++) {
-      fragment.appendChild(renderPictureAttributs(data[i], i));
-    }
+    elements.forEach(function (element) {
+      fragment.appendChild(renderPictureAttributs(element));
+    });
     pictures.appendChild(fragment);
   };
 

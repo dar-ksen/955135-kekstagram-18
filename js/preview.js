@@ -11,14 +11,14 @@
   var commentsLoader = bigPicture.querySelector('.comments-loader');
   var countOfComments;
 
-  var closeBigPicture = function () {
+  var onCloseButtonClick = function () {
     bigPicture.classList.add('hidden');
     body.classList.remove('modal-open');
     document.removeEventListener('keydown', onEscPress);
   };
 
   var onEscPress = function (evt) {
-    window.util.isEscEvent(evt, closeBigPicture);
+    window.util.isEscEvent(evt, onCloseButtonClick);
   };
 
   function showcommentCount() {
@@ -84,7 +84,7 @@
     showcommentCount();
   });
 
-  closeButton.addEventListener('click', closeBigPicture);
+  closeButton.addEventListener('click', onCloseButtonClick);
 
   window.preview = {
     viewPhoto: viewPhoto,
