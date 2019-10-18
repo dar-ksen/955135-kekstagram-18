@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var NUMBER_RANDOM = 10;
+
   var compareRandom = function () {
     return Math.random() - 0.5;
   };
@@ -17,7 +19,7 @@
 
   var filterRandom = function (array) {
     window.util.deletePictures();
-    window.picture.renderAll(array.slice().sort(compareRandom).slice(0, 10));
+    window.picture.renderAll(array.slice().sort(compareRandom).slice(0, NUMBER_RANDOM));
   };
 
   var filterPopular = function (array) {
